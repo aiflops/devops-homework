@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  haproxy:
+    image: haproxy:2.2-alpine
+    volumes:
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - ./haproxy/blacklist_agent.lst:/usr/local/etc/haproxy/blacklist_agent.lst:ro
+      - ./haproxy/whitelist_agent.lst:/usr/local/etc/haproxy/whitelist_agent.lst:ro
+    ports:
+      - 9090:80
+    depends_on:
+      - backend1
+      - backend2
+
+  backend1:
+    build:
+      context: ./backend/
+
+  backend2:
+    build:
+      context: ./backend/
